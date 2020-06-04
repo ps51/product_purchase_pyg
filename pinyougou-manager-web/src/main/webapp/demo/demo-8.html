@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AngularJS入门Demo-8 内置服务$http</title>
+    <script src="angular.min.js"></script>
+    <script>
+        //建立模块   ("模块名",[对其它模块的引用])
+        var app = angular.module("myApp", []);
+        //创建控制器  ("控制器名称,function(){控制器内容})
+        //$scope 控制层与视图层之间交换数据的桥梁, 可以定义方法/变量等等..然后在视图层可以访问
+        app.controller("myController", function ($scope,$http) {
+            $scope.findAll=function () {
+                $http.get("data.json").success(function (response) {
+                    /*请求成功后方法*/
+                    $scope.list = response;
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<!--ng-app   指令 AngularJS启动引擎
+	ng-app="myApp" 指定模块名
+	ng-controller="控制器名"   表明当前属于哪个控制器(被哪个控制器操控)
+	ng-init   初始化执行的代码
+-->
+<body ng-app="myApp" ng-controller="myController" ng-init="findAll()">
+
+<table>
+    <!--ng-repeat="每次遍历出的结果 in 要循环的对象"" 循环对象数组-->
+    <tr>
+        <td>姓名</td>
+        <td>数学</td>
+        <td>语文</td>
+    </tr>
+    <tr ng-repeat="entity in list">
+        <td>{{entity.name}}</td>
+        <td>{{entity.shuxue}}</td>
+        <td>{{entity.yuwen}}</td>
+    </tr>
+</table>
+
+</body>
+</html>
